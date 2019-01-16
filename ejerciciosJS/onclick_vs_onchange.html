@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function teclaPulsada(evento_info)
+{
+console.log("Evento: "+evento_info.keyCode);
+}
+</script>
+
+</head>
+<body onclick="console.log('clicaste el body');" style="height: 500px">
+<select onclick="console.log('clicaste');" onchange="console.log('cambiaste');">
+<option value="1">Opcion1</option>
+<option value="2">Opcion2</option>
+</select>
+<input type="text" onclick="console.log('clicaste');" onchange="console.log('cambiaste');" onkeypress="teclaPulsada(event);">
+</body>
+</html>
