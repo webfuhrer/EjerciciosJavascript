@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <script>
+function cargarOyente()
+{
+document.getElementById("boton").onclick=validarDNI;
+//document.getElementById("boton").onclick=function(){validarDNI();}
+}
+function validarDNI()
+{
+var dni=document.getElementById("dni").value;
+//Verifico que tiene 9 caracteres:
+	if(dni.length!=9)
+		{
+		alert("Longitud incorrecta");
+		return false;
+		}
+var numero=dni.substr(0,8);//substr(inicio, numero_caracteres)
+// isNaN("pepe"); true porque "pepe" is not a number
+// isNaN(23); false porque 23 NO is not a number
+	if(isNaN(numero)==true)
+	{
+	alert("Los 8 primeros caracteres deben ser numéricos");
+	return false;
+	}
+	
+//var letra=dni.substr(8,1);
+	var letra=dni.charAt(8);
+	if(isNaN(letra)==false) //
+	{
+	alert("El último caráctere debe ser una letra");
+	return false;
+	}
+	var resto=	numero%23;//% es la funcion modulo y devuelve el resto
+	var letras="TRWAGMYFPDXBNJZSQVHLCKE";
+	var letra_correspondiente=letras.charAt(resto);
+	if(letra!=letra_correspondiente)
+	{alert("La letra no coincide");
+	return false;
+	}
+	alert("El DNI es correcto");
+	
+}
+</script>
+</head>
+<body onload="cargarOyente();">
+<input type="text" id="dni">
+<button id="boton">Clicame</button>
+</body>
+
+</html>
