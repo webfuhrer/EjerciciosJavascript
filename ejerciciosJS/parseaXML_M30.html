@@ -1,0 +1,67 @@
+<html>
+<head>
+<script>
+function hacerPeticion()
+{
+var url="http://www.mc30.es/components/com_hotspots/datos/camaras.xml";
+var peticion =new XMLHttpRequest();
+peticion.onreadystatechange=function()
+				{
+				if(this.readyState==4 && this.status==200)
+					{
+					var lista_camaras=tratarXML(this.responseText);
+					crearTabla(lista_camaras);
+					}
+				
+				}
+peticion.open("GET", url, true);
+peticion.send();
+//readyState
+//status
+
+
+}
+function crearTabla(lista_camaras)
+{
+var objeto_tabla=document.getElementById("table");
+for (i=0; i<lista_camaras.length; i++)
+	{
+	var camara =lista_camaras[i];
+	var obj_tr=document.createElement("tr");
+	obj_tr.innerHTML="<td>"+camara.latitud+"</td><td>"+camara.longitud+
+	"</td><td><img width='100px' src="+camara.url+"></td>";
+	objeto_tabla.appendChild(obj_tr);
+	}
+}
+function tratarXML(texto_xml)
+{
+var parser = new DOMParser();
+var lista_camaras=new Array();
+var xmlDoc = parser.parseFromString(texto_xml, "text/xml");
+var lista_objetos_camara=xmlDoc.getElementsByTagName("Camara");
+for (i=0; i<lista_objetos_camara.length; i++)
+	{
+	var objeto_camara=lista_objetos_camara[i];
+	var objeto_latitud=objeto_camara.getElementsByTagName("Latitud")[0];
+	var objeto_longitud=objeto_camara.getElementsByTagName("Longitud")[0];
+	var hijo_latitud=objeto_latitud.childNodes[0];
+	var hijo_longitud=objeto_longitud.childNodes[0];
+	var valor_latitud=hijo_latitud.nodeValue;
+	var valor_longitud=hijo_longitud.nodeValue;
+	var valor_url="http://"+objeto_camara.getElementsByTagName("URL")[0].childNodes[0].nodeValue;
+	var camara={latitud:valor_latitud, longitud:valor_longitud, url: valor_url}
+	lista_camaras.push(camara);
+	
+	
+	}
+	return lista_camaras;
+
+}
+</script>
+</head>
+<body >
+
+<button id="boton" onclick="hacerPeticion();">Pedir datos M30</button>
+<table id="table"></table>
+</body>
+</html>
