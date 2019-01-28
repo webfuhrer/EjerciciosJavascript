@@ -1,8 +1,25 @@
 <html>
 <head>
+<style>
+.capa_mapa
+{
+width: 500px;
+height:100px;
+}
+#capa_espera
+{
+width: 100%;
+display: none;
+}
+</style>
 <script>
 function hacerPeticion()
 {
+//mostrarCapa De Espera
+document.getElementById("capa_espera").style.display="block";
+
+//ocultar lo anterior
+document.getElementById("capa_principal").style.display="none";
 var url="http://www.mc30.es/components/com_hotspots/datos/camaras.xml";
 var peticion =new XMLHttpRequest();
 peticion.onreadystatechange=function()
@@ -10,7 +27,13 @@ peticion.onreadystatechange=function()
 				if(this.readyState==4 && this.status==200)
 					{
 					var lista_camaras=tratarXML(this.responseText);
+					//mostrarCapa De Espera
+document.getElementById("capa_espera").style.display="none";
+
+//ocultar lo anterior
+document.getElementById("capa_principal").style.display="block";
 					crearTabla(lista_camaras);
+					cargarMapas(lista_camaras);
 					}
 				
 				}
@@ -27,11 +50,23 @@ var objeto_tabla=document.getElementById("table");
 for (i=0; i<lista_camaras.length; i++)
 	{
 	var camara =lista_camaras[i];
+	console.log(camara.latitud);
+	
 	var obj_tr=document.createElement("tr");
-	obj_tr.innerHTML="<td>"+camara.latitud+"</td><td>"+camara.longitud+
-	"</td><td><img width='100px' src="+camara.url+"></td>";
+	obj_tr.innerHTML="<td><div class='capa_mapa' id='mapa"+i+"'></td><td><img width='100px' src="+camara.url+"></td>";
 	objeto_tabla.appendChild(obj_tr);
 	}
+}
+function cargarMapas(lista_camaras) {
+  for(j=0; j<lista_camaras.length; j++)
+  {
+  var camara=lista_camaras[j];
+  var posicion={lat:camara.latitud*1, lng:camara.longitud*1}
+  var map = new google.maps.Map(
+      document.getElementById('mapa'+j), {zoom: 12, center: posicion});
+  // The marker, positioned at Uluru
+  var marker = new google.maps.Marker({position: posicion, map: map});
+  }
 }
 function tratarXML(texto_xml)
 {
@@ -45,6 +80,7 @@ for (i=0; i<lista_objetos_camara.length; i++)
 	var objeto_latitud=objeto_camara.getElementsByTagName("Latitud")[0];
 	var objeto_longitud=objeto_camara.getElementsByTagName("Longitud")[0];
 	var hijo_latitud=objeto_latitud.childNodes[0];
+	
 	var hijo_longitud=objeto_longitud.childNodes[0];
 	var valor_latitud=hijo_latitud.nodeValue;
 	var valor_longitud=hijo_longitud.nodeValue;
@@ -60,8 +96,16 @@ for (i=0; i<lista_objetos_camara.length; i++)
 </script>
 </head>
 <body >
+<div id="capa_principal">
+	<button id="boton" onclick="hacerPeticion();">Pedir datos M30</button>
+	<table id="table"></table>
+</div>
+<div id="capa_espera">
+<img src="img/reloj_arena.gif">
+</div>
 
-<button id="boton" onclick="hacerPeticion();">Pedir datos M30</button>
-<table id="table"></table>
 </body>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2nnTwxI_6v6FgZQ_HYALbkWsL3qhFjT4">
+    </script>
 </html>
