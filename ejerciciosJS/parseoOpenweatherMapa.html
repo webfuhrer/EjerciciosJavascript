@@ -1,0 +1,65 @@
+<html>
+<head>
+<style>
+#capa_mapa
+{
+height: 500px;
+}
+</style>
+    <script>
+	function hacerPeticion()
+	{
+	var ciudad=document.getElementById("ciudad").value;
+	var url="http://api.openweathermap.org/data/2.5/weather?q="+ciudad+"&units=metric&appid=57703a7a9ab7b873a99116a3ea379748";
+	var peticion=new XMLHttpRequest();
+	
+	peticion.open("GET", url, true);
+	peticion.send();
+	peticion.onreadystatechange=function()
+				{
+				if (this.readyState==4 && this.status==200)
+					{
+					tratarJSON(this.responseText);
+					}
+				}
+	}
+	function tratarJSON(texto_json)
+	{
+	var objeto_json=JSON.parse(texto_json);
+	var objeto_coord=objeto_json.coord;
+	var lat=objeto_coord.lat;
+	var lon=objeto_coord.lon;
+	var t_min=objeto_json.main.temp_min;
+	var t_max=objeto_json.main.temp_max;
+	var objeto_para_mapa={lat:lat, lon:lon, t_min:t_min, t_max:t_max }
+	mostrarMapa(objeto_para_mapa);
+	}
+	function mostrarMapa(objeto_datos_mapa)
+	{
+	var centro={lat: objeto_datos_mapa.lat, lng: objeto_datos_mapa.lon}
+	var opciones={
+			center: centro,
+			zoom: 12,
+			mapTypeId: 'terrain'
+					}
+	var mapa=new google.maps.Map(document.getElementById("capa_mapa"), opciones);
+	var opciones_marcador={position:centro, title:objeto_datos_mapa.t_min+", "+
+objeto_datos_mapa.t_max, map:mapa	}
+	var marcador=new google.maps.Marker(opciones_marcador);
+	}
+    </script>
+</head>
+<body>
+<div id="capa_mapa"></div>
+<select id="ciudad">
+<option value="Barcelona">Barcelona</option>
+<option value="Madrid">Madrid</option>
+<option value="Barcelona">Barcelona</option>
+<option value="Sevilla">Sevilla</option>
+</select>
+<button onclick="hacerPeticion()">Mostrar clima</button>
+</body>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2nnTwxI_6v6FgZQ_HYALbkWsL3qhFjT4">
+    </script>
+</html>
