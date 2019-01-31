@@ -1,0 +1,84 @@
+<html>
+<head>
+<style>
+#capa
+{
+height: 10%;
+width: 10%;
+background-color: rgba(0,0,255,0.3);
+position: absolute;
+top: 50%;
+left: 50%;
+background-image: url("ansarpeque.jpg");
+background-repeat: no-repeat
+}
+#capa_padre
+{
+position: absolute;
+width: 90%;
+height: 90%;
+border: 1px solid red;
+}
+</style>
+<script>
+var arriba=50;
+var left=50;
+
+
+function cargarOyente()
+{
+if (window.DeviceMotionEvent != undefined) {
+	window.ondevicemotion =mueveCapa;
+										}
+}
+function mueveCapa(aceleracion)
+{
+console.log(aceleracion);
+
+var acx=aceleracion.accelerationIncludingGravity.x;
+var acy=aceleracion.accelerationIncludingGravity.y;
+moverCapa(acx, acy);
+}
+function moverCapa(acx, acy)
+{
+var objeto_capa=document.getElementById("capa");
+arriba=arriba+acy;
+left=left-acx;
+
+if(arriba>=90)
+{arriba=90;}
+if (arriba<=0)
+{
+arriba=0;
+}
+
+if(left>=90)
+{
+left=90;
+}
+if(left<=0)
+{
+left=0;
+}
+
+
+objeto_capa.style.top=arriba+'%';
+
+	objeto_capa.style.left=left+'%';
+
+}
+function errorAcelerometro(e)
+{
+var objeto_capa=document.getElementById("capa");
+objeto_capa.innerHTML="Error";
+}
+</script>
+</head>
+<body onload="cargarOyente();">
+<div id="capa_padre">
+<div id="capa"></div>
+</div>
+
+</body>
+
+</html>

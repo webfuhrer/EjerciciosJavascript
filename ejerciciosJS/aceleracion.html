@@ -1,0 +1,53 @@
+<html>
+<head>
+<style>
+#capa
+{
+height: 10%;
+width: 10%;
+background-color: blue;
+position: absolute;
+top: 50%;
+left: 50%
+}
+</style>
+<script>
+var arriba=50;
+var left=50;
+function moverIzquierda()
+{
+var capa=document.getElementById("capa");
+left=left-2;
+capa.style.left=left+"%";
+}
+function moverDerecha()
+{
+var capa=document.getElementById("capa");
+left=left+2;
+capa.style.left=left+"%";
+}
+function moverArriba()
+{
+var capa=document.getElementById("capa");
+arriba=arriba-2;
+console.log(arriba);
+capa.style.top=arriba+"%";
+}
+function moverAbajo()
+{
+var capa=document.getElementById("capa");
+arriba=arriba+2;
+console.log(arriba);
+capa.style.top=arriba+"%";
+}
+</script>
+</head>
+<body>
+<div id="capa"></div>
+<button onclick="moverIzquierda();"><-</button>
+<button onclick="moverDerecha();">-></button>
+<button onclick="moverArriba();">^^</button>
+<button onclick="moverAbajo();">VV</button>
+</body>
+
+</html>
