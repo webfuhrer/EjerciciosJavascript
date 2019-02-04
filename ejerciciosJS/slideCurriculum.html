@@ -1,0 +1,64 @@
+<html>
+<head>
+<style>
+#contenido_experiencia, #contenido_datos_personales
+{
+display: none;
+}
+#titulo_datos_personales, #titulo_datos_personales div 
+{
+display: inline;
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+var datos_personales_mostrados=false;
+$(document).ready(function()
+{
+$("#titulo_datos_personales>div").click(function(){clickDatosPersonales();});
+$("#titulo_experiencia>div").click(function(){clickExperiencia();});
+});
+
+function clickDatosPersonales()
+{
+
+if (datos_personales_mostrados)
+		{
+		$("#contenido_datos_personales").slideUp(3000, function(){$("#titulo_datos_personales>div").text("+");});
+		datos_personales_mostrados=false;
+		}
+		else
+		{
+		$("#contenido_datos_personales").slideDown(3000, function(){$("#titulo_datos_personales>div").text("-");});
+		datos_personales_mostrados=true;
+		}
+}
+
+
+
+</script>
+</head>
+<body >
+<div id="padre_datospersonales">
+	<div id="titulo_datos_personales">Datos personales<div>+</div></div>
+	<div id="contenido_datos_personales"> 
+		 <ul>
+			 <li>Castración de gatitos</li>
+			 <li>Sexador de pollos</li>
+		 </ul>
+	 </div>
+</div>
+<div id="padre_experiencia">
+	<div id="titulo_experiencia">Experiencia<div>+</div></div>
+	<div id="contenido_experiencia"> 
+		 <ul>
+			 <li>Castración de gatitos</li>
+			 <li>Sexador de pollos</li>
+		 </ul>
+	 </div>
+</div>
+
+
+</body>
+</html>

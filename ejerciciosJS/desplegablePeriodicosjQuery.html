@@ -1,0 +1,28 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function()
+{
+$("#periodico").change(function(){cambiarEnlace()});
+});
+
+function cambiarEnlace()
+{
+var periodico=$("#periodico").val();
+
+$("#enlace").attr("href", periodico);
+$("#enlace").html("Ir a <b>"+periodico+"</b>");
+}
+
+</script>
+</head>
+<body >
+<select id="periodico">
+	<option value="https://elpais.com">El Pais</option>
+	<option value="https://www.elmundo.es/">El Mundo</option>
+	<option value="https://as.com/">AS</option>
+</select>
+<a id="enlace" href=""></a>
+</body>
+</html>
