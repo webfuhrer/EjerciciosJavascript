@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>Cambiar estilos</title>
+
+<script>
+function aplicarEnlace()
+{
+	var periodico_seleccionado= document.getElementById("periodico").value;
+	console.log("seleccionado:"+periodico_seleccionado);
+	//Si no tuviera id var periodico_seleccionado=document.getElementsByTagName("select")[0].value;
+	var objeto_enlace=document.createElement("a");
+	if (periodico_seleccionado=="http://elpais.com")
+	{
+		objeto_enlace.href=periodico_seleccionado;
+		objeto_enlace.innerHTML="Ir a <b>El Pais</b>";
+	}
+	if (periodico_seleccionado=="http://elmundo.es")
+	{
+		objeto_enlace.href=periodico_seleccionado;
+		objeto_enlace.innerHTML="Ir a <b>El Mundo</b>";
+	}
+	if (periodico_seleccionado=="https://www.elespanol.com/")
+	{
+		objeto_enlace.href=periodico_seleccionado;
+		objeto_enlace.innerHTML="Ir a <b>El Español</b>";
+	}
+	var obj_capa_enlace=document.getElementById("capa_enlace");
+	//obj_capa_enlace.innerHTML="";
+	var hijos=obj_capa_enlace.childNodes;
+	if (hijos.length>0)
+	{
+	obj_capa_enlace.removeChild(hijos[0]);
+	}
+	
+	obj_capa_enlace.appendChild(objeto_enlace);
+}
+</script>
+</head>
+<body>
+<select id="periodico">
+<option value="http://elpais.com">El País</option>
+<option value="http://elmundo.es">El Mundo</option>
+<option value="https://www.elespanol.com/">El Español</option>
+</select>
+
+<button  onclick="aplicarEnlace();">Aplicar</button>
+<div id="capa_enlace"></div>
+
+</body>
+</html>
