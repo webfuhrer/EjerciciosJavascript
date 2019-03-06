@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>Cambiar estilos</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  
+<script>
+$(document).ready(
+function()
+	{
+	cargarOyente();
+	}
+);
+function cargarOyente()
+{
+$("button").click(function(){cambiarPeriodico();});
+}
+function cambiarPeriodico()
+{
+	//var periodico_seleccionado= document.getElementById("periodico").value;
+	$("a").hide();
+	$("a").fadeOut(5000);
+	var periodico_seleccionado=$("#periodico").val();
+	if(periodico_seleccionado=="http://elpais.com")
+	{
+	$("a").attr("href", periodico_seleccionado);
+	$("a").html("Ir a El Pais");
+	}
+	if(periodico_seleccionado=="http://elmundo.es")
+	{
+	$("a").attr("href", periodico_seleccionado);
+	$("a").html("Ir a El Mundo");
+	}
+	if(periodico_seleccionado=="https://www.elespanol.com/")
+	{
+	$("a").attr("href", periodico_seleccionado);
+	$("a").html("Ir a El Español");
+	}
+	$("a").fadeIn(5000, function(){alert("Enlace cargado");});
+	
+}
+</script>
+</head>
+<body>
+<select id="periodico">
+<option value="http://elpais.com">El País</option>
+<option value="http://elmundo.es">El Mundo</option>
+<option value="https://www.elespanol.com/">El Español</option>
+</select>
+
+<button >Aplicar</button>
+<a href=""></a>
+
+</body>
+</html>
