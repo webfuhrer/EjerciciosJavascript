@@ -1,0 +1,43 @@
+<html>
+<head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="js/funciones2.js"></script>
+<style>
+.epigrafe
+{
+background-color: gray;
+}
+#contenido_experiencia, #contenido_contacto
+{
+display: none;
+}
+.letra_verde
+{
+color: green;
+}
+.letra_rojo
+{
+color: red;
+}
+.epigrafe>div>div{display: inline;cursor: pointer}
+</style>
+</script>
+</head>
+<body >
+<div id="contacto" class="epigrafe">
+	<div id="titulo_contacto">
+		<div>Contacto</div>
+		<div id="palabra_contacto" class="letra_verde">Expandir</div>
+	</div>
+	<div id="contenido_contacto">Lorem ipsum contacto.....</div>
+</div>
+<div id="experiencia" class="epigrafe">
+	<div id="titulo_experiencia">
+		<div>Experiencia</div>
+		<div id="palabra_experiencia" class="letra_verde">Expandir</div>
+	</div>
+	<div id="contenido_experiencia">Lorem ipsum experiencia.....</div>
+</div>
+</body>
+</html>
