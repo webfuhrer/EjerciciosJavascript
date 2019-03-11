@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Page Title</title>
+<style>
+#espera
+{
+display: none;
+}
+</style>
+<script>
+    function pedirJSON(){
+	document.getElementById("espera").style.display="block";
+	document.getElementById("capa_total").style.display="none";
+	
+	
+	var latitud=document.getElementById("latitud").value;
+	var longitud=document.getElementById("longitud").value;
+	var radio=document.getElementById("radio").value;
+	
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200){
+          var respuesta = this.responseText;
+          tratarJSON(respuesta);
+		  	document.getElementById("espera").style.display="none";
+	document.getElementById("capa_total").style.display="block";
+        }
+      }
+	  
+      xhttp.open("POST","https://openbus.emtmadrid.es:9443/emt-proxy-server/last/geo/GetStopsFromXY.php", true);
+	  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      console.log("idClient=WEB.SERV.ataraxa@hotmail.com&passKey=83D88CD0-8A9B-4CE6-B976-B922B61FAE6D&latitude="+latitud+"&longitude="+longitud+"&Radius="+radio);
+	  xhttp.send("idClient=WEB.SERV.ataraxa@hotmail.com&passKey=83D88CD0-8A9B-4CE6-B976-B922B61FAE6D&latitude="+latitud+"&longitude="+longitud+"&Radius="+radio);
+
+    }
+	
+	function tratarJSON(respuesta)
+	{
+	console.log(respuesta);
+	var aux="<table><tr><th>Nº parada</th><th>Autobuses</th></tr>";
+	var obj_json=JSON.parse(respuesta);
+	var lista_paradas=obj_json.stop;
+	
+	for(i=0; i<lista_paradas.length;i++)
+		{
+		var parada=lista_paradas[i];
+		var stopId=parada.stopId;
+		var lista_lineas=parada.line;
+		var lineas="";
+		console.log("Parada: "+stopId+" me da length: "+lista_lineas.length);
+		if (lista_lineas.length==undefined)
+		{
+				lineas=lista_lineas.line;
+		}
+		else
+		{
+				for(j=0; j<lista_lineas.length; j++)
+					{
+					var objeto_linea=lista_lineas[j];
+					var linea=objeto_linea.line;
+					lineas+=linea+", ";
+					}
+		}
+		aux+="<tr><td>"+stopId+"</td><td>"+lineas+"</td></tr>";	
+		}
+		
+	document.getElementById("contenido_tabla").innerHTML=aux;
+	}
+
+   
+
+</script>
+</head>
+<body >
+<div id="capa_total">
+		  <input type="text" id="latitud" value="40.421166">
+		  <input type="text" id="longitud" value="-3.707437">
+		  <input type="text" id="radio" value=100>
+		  
+		  <button onclick="pedirJSON();">Pedir json</button>
+		<div id="contenido_tabla"></div>
+</div>
+<div id="espera">
+	<img src="e8nZC.gif">
+</div>
+</body>
+</html>
