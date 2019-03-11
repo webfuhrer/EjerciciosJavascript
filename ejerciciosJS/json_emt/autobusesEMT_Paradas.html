@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Page Title</title>
+
+<script>
+    function pedirJSON(){
+	var idStop=document.getElementById("idStop").value;
+	
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200){
+          var respuesta = this.responseText;
+          tratarJSON(respuesta);
+        }
+      }
+	  
+      xhttp.open("POST","https://openbus.emtmadrid.es:9443/emt-proxy-server/last/geo/GetArriveStop.php", true);
+	  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.send("idClient=WEB.SERV.ataraxa@hotmail.com&passKey=83D88CD0-8A9B-4CE6-B976-B922B61FAE6D&idStop="+idStop);
+
+    }
+	
+	function tratarJSON(respuesta)
+	{
+	var aux="<table><tr><th>Id</th><th>Destino</th><th>Tiempo</th><th>Distancia</th></tr>";
+	var obj_json=JSON.parse(respuesta);
+	var objeto_arrives=obj_json.arrives;//esto es un array
+	for (i=0; i<objeto_arrives.length; i++)
+		{
+		aux+="<tr>";
+		var objeto_llegada=objeto_arrives[i];
+		var busId=objeto_llegada.lineId;
+		var destino=objeto_llegada.destination;
+		var tiempo_llegada=objeto_llegada.busTimeLeft;//En segundos
+		var distancia=objeto_llegada.busDistance;
+		aux+="<td>"+busId+"</td><td>"+destino+"</td><td>"+tiempo_llegada+"</td><td>"+distancia+"</td>";
+		aux+="</tr>";
+		}
+		aux+="</table>";
+	document.getElementById("contenido_tabla").innerHTML=aux;
+	}
+
+   
+
+</script>
+</head>
+<body >
+  <input type="text" id="idStop"><button onclick="pedirJSON();">Pedir json</button>
+<div id="contenido_tabla"></div>
+</body>
+</html>
